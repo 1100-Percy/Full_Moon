@@ -160,12 +160,15 @@ export function MeteorLayer({ incomingMessages, onCatch }) {
     hit.caught = true;
     meteorsRef.current = meteorsRef.current.filter((meteor) => meteor.id !== hit.id);
     particlesRef.current.push(...makeParticles(hit.x, hit.y));
-    const result = await onCatch(hit.message);
     setCaughtCard({
       message: hit.message,
-      litStarIndex: result?.litStarIndex ?? null,
     });
-    window.setTimeout(() => setCaughtCard(null), 5200);
+  };
+
+  const closeCard = async () => {
+    if (!caughtCard) return;
+    await onCatch(caughtCard.message);
+    setCaughtCard(null);
   };
 
   return (
@@ -175,11 +178,8 @@ export function MeteorLayer({ incomingMessages, onCatch }) {
         <aside className="meteor-card">
           <span>{caughtCard.message.sender}</span>
           <p>{caughtCard.message.content}</p>
-          <small>
-            {caughtCard.litStarIndex === null
-              ? 'Message opened. Today already has a star.'
-              : `Star ${caughtCard.litStarIndex} lit for today.`}
-          </small>
+          <small>Close this message to keep it in your shared sky.</small>
+          <button type="button" onClick={closeCard}>Close</button>
         </aside>
       ) : null}
     </>

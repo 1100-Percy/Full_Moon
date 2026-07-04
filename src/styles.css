@@ -252,6 +252,16 @@ button {
   color: rgba(183, 225, 222, 0.78);
 }
 
+.meteor-card button {
+  justify-self: end;
+  min-height: 34px;
+  padding: 0 13px;
+  border-radius: 6px;
+  color: #152025;
+  background: #fff2c8;
+  font-weight: 800;
+}
+
 .moon-stage {
   position: absolute;
   z-index: 2;

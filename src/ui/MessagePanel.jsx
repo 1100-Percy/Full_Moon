@@ -32,7 +32,7 @@ export function MessagePanel({ pairId, role, messages, onSent, onOpenMessage }) 
               <span className={message.caught_at ? 'caught' : 'sealed'}>{message.caught_at ? 'caught' : 'sealed'}</span>
               {!message.caught_at && message.sender !== role ? (
                 <button type="button" onClick={() => onOpenMessage(message)}>
-                  Open
+                  Catch
                 </button>
               ) : null}
             </div>

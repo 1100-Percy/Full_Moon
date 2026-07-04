@@ -14,6 +14,10 @@ export async function getMessages() {
   throw new Error('Supabase is not configured yet. Use VITE_USE_MOCK=true for Phase 0.');
 }
 
+export async function getInboxMessages() {
+  throw new Error('Supabase is not configured yet. Use VITE_USE_MOCK=true for Phase 0.');
+}
+
 export async function catchMessage() {
   throw new Error('Supabase is not configured yet. Use VITE_USE_MOCK=true for Phase 0.');
 }

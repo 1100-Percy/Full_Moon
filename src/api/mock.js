@@ -51,6 +51,8 @@ export async function createPair(userA, userB, startAt, reunionAt) {
     user_b: userB,
     start_at: startAt,
     reunion_at: reunionAt,
+    last_seen_a_at: null,
+    last_seen_b_at: null,
   };
 
   db.pairs.push(pair);
@@ -86,6 +88,33 @@ export async function getMessages(pairId) {
   return db.messages
     .filter((message) => message.pair_id === pairId)
     .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+}
+
+export async function getInboxMessages(pairId, recipient, simNow) {
+  const db = readDb();
+  const pair = db.pairs.find((item) => item.id === pairId);
+  if (!pair) return [];
+
+  const role = recipient === 'B' ? 'B' : 'A';
+  const seenField = role === 'A' ? 'last_seen_a_at' : 'last_seen_b_at';
+  const previousSeen = pair[seenField] ? new Date(pair[seenField]).getTime() : Number.NEGATIVE_INFINITY;
+  const now = new Date(simNow).getTime();
+  const justChecked = Number.isFinite(previousSeen) && Math.abs(now - previousSeen) <= 5000;
+
+  const inbox = db.messages
+    .filter((message) => {
+      if (message.pair_id !== pairId) return false;
+      if (message.sender === role) return false;
+      const createdAt = new Date(message.created_at).getTime();
+      if (createdAt > now) return false;
+      if (message.caught_at) return false;
+      return createdAt > previousSeen || justChecked;
+    })
+    .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+
+  pair[seenField] = new Date(simNow).toISOString();
+  writeDb(db);
+  return inbox;
 }
 
 export async function catchMessage(msgId, simNow) {

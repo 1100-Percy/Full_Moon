@@ -7,6 +7,7 @@ export const getPair = api.getPair;
 export const createPair = api.createPair;
 export const sendMessage = api.sendMessage;
 export const getMessages = api.getMessages;
+export const getInboxMessages = api.getInboxMessages;
 export const catchMessage = api.catchMessage;
 export const onNewMessage = api.onNewMessage;
 export const getLitStars = api.getLitStars;

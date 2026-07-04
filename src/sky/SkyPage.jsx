@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Menu, UserRound } from 'lucide-react';
-import { catchMessage, getLitStars, getMessages, getMoonState, getPair, onNewMessage } from '../api';
+import { catchMessage, getInboxMessages, getLitStars, getMessages, getMoonState, getPair, onNewMessage } from '../api';
 import { useMoonStore } from '../store.js';
 import { CountdownBadge } from '../ui/CountdownBadge.jsx';
 import { MessagePanel } from '../ui/MessagePanel.jsx';
@@ -19,6 +19,17 @@ export function SkyPage({ time, navigate }) {
   const [meteorMessages, setMeteorMessages] = useState([]);
   const [panelOpen, setPanelOpen] = useState(false);
 
+  const launchMeteors = (nextMessages, reason = 'inbox') => {
+    nextMessages.forEach((message, index) => {
+      window.setTimeout(() => {
+        setMeteorMessages((current) => [
+          ...current,
+          { ...message, launchId: `${message.id}:${reason}:${Date.now()}:${index}` },
+        ]);
+      }, index * 850);
+    });
+  };
+
   useEffect(() => {
     let alive = true;
     Promise.all([getPair(pairId), getMessages(pairId), getLitStars(pairId)]).then(([nextPair, nextMessages, nextStars]) => {
@@ -26,16 +37,22 @@ export function SkyPage({ time, navigate }) {
       setPair(nextPair);
       setMessages(nextMessages);
       setLitStars(nextStars.map((star) => star.star_index));
-      const firstIncoming = [...nextMessages].reverse().find((message) => !message.caught_at && message.sender !== role);
-      if (firstIncoming) {
-        window.setTimeout(() => {
-          if (!alive) return;
-          setMeteorMessages((current) => [
-            ...current,
-            { ...firstIncoming, launchId: `${firstIncoming.id}:initial` },
-          ]);
-        }, 900);
-      }
+    });
+    return () => {
+      alive = false;
+    };
+  }, [pairId, role]);
+
+  useEffect(() => {
+    let alive = true;
+    getInboxMessages(pairId, role, time.simNow).then((inboxMessages) => {
+      if (!alive || inboxMessages.length === 0) return;
+      setMessages((current) => {
+        const known = new Set(current.map((message) => message.id));
+        return [...current, ...inboxMessages.filter((message) => !known.has(message.id))]
+          .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+      });
+      launchMeteors(inboxMessages, 'open');
     });
     return () => {
       alive = false;
@@ -72,13 +89,14 @@ export function SkyPage({ time, navigate }) {
     return result;
   };
 
-  const launchLatestMeteor = () => {
-    const latest = [...messages].reverse().find((message) => !message.caught_at && message.sender !== role);
-    if (!latest) return;
-    setMeteorMessages((current) => [
-      ...current,
-      { ...latest, launchId: `${latest.id}:${Date.now()}` },
-    ]);
+  const checkInbox = async () => {
+    const inboxMessages = await getInboxMessages(pairId, role, time.simNow);
+    if (inboxMessages.length > 0) {
+      launchMeteors(inboxMessages, 'manual');
+      return;
+    }
+    const latestUnread = [...messages].reverse().find((message) => !message.caught_at && message.sender !== role);
+    if (latestUnread) launchMeteors([latestUnread], 'retry');
   };
 
   return (
@@ -94,7 +112,7 @@ export function SkyPage({ time, navigate }) {
       <header className="sky-header">
         <button type="button" className="brand-button" onClick={() => navigate('setup')}>Full Moon</button>
         <div className="sky-actions">
-          <button type="button" onClick={launchLatestMeteor}>Launch meteor</button>
+          <button type="button" onClick={checkInbox}>Check inbox</button>
           <button type="button" onClick={toggleRole}>
             <UserRound size={17} />
             {role}
@@ -111,7 +129,7 @@ export function SkyPage({ time, navigate }) {
           role={role}
           messages={messages}
           onSent={(message) => setMessages((current) => [...current, message])}
-          onOpenMessage={catchOneMessage}
+          onOpenMessage={(message) => launchMeteors([message], 'panel')}
         />
       ) : null}
     </main>

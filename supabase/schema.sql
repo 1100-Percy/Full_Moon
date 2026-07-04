@@ -3,8 +3,13 @@ create table if not exists pairs (
   user_a text not null,
   user_b text not null,
   start_at timestamptz not null,
-  reunion_at timestamptz not null
+  reunion_at timestamptz not null,
+  last_seen_a_at timestamptz,
+  last_seen_b_at timestamptz
 );
+
+alter table pairs add column if not exists last_seen_a_at timestamptz;
+alter table pairs add column if not exists last_seen_b_at timestamptz;
 
 create table if not exists messages (
   id uuid primary key default gen_random_uuid(),

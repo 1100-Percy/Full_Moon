@@ -17,7 +17,9 @@ This file freezes the Phase 0 data contract. Any contract change must be agreed 
 
 ```sql
 pairs    ( id uuid pk, user_a text, user_b text,
-           start_at timestamptz, reunion_at timestamptz )
+           start_at timestamptz, reunion_at timestamptz,
+           last_seen_a_at timestamptz null,              -- A 上次打开收件箱
+           last_seen_b_at timestamptz null )             -- B 上次打开收件箱
 
 messages ( id uuid pk, pair_id uuid, sender text,
            content text, image_url text null,
@@ -56,6 +58,7 @@ getPair(pairId) -> Pair
 createPair(userA, userB, startAt, reunionAt) -> Pair
 sendMessage(pairId, sender, content, imageUrl?) -> Message
 getMessages(pairId) -> Message[]
+getInboxMessages(pairId, recipient, simNow) -> Message[] // 对方发来、未读、上次打开后收到
 catchMessage(msgId, simNow) -> { message, litStarIndex|null }
 onNewMessage(pairId, cb) -> unsubscribe
 getLitStars(pairId) -> [{ star_index, lit_on, source }]
