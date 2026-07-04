@@ -1,0 +1,12 @@
+[
+  { "id": "moon-photo", "prompt": "今晚各自拍一张你所在地的月亮或夜空。" },
+  { "id": "same-song", "prompt": "同时听同一首歌,各自拍下此刻的播放画面或环境。" },
+  { "id": "warm-drink", "prompt": "各自准备一杯热饮,拍下杯子和窗边的光。" },
+  { "id": "dinner-color", "prompt": "各自拍一张今天晚餐里最像月光颜色的食物。" },
+  { "id": "desk-corner", "prompt": "各自拍下此刻桌面上最想分享给对方的小角落。" },
+  { "id": "street-light", "prompt": "各自拍一盏路灯、窗灯或远处亮着的灯。" },
+  { "id": "hand-written", "prompt": "各自手写一句给对方的话并拍照。" },
+  { "id": "sky-check", "prompt": "各自拍一张此刻天空,晴天阴天都可以。" },
+  { "id": "morning-proof", "prompt": "各自拍下今天早晨看到的第一束光。" },
+  { "id": "tiny-gift", "prompt": "各自拍一个想在见面时带给对方的小物件。" }
+]

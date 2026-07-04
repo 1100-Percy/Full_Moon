@@ -1,0 +1,47 @@
+[
+  { "index": 0, "x": 0.10, "y": 0.18, "constellation": "Pisces" },
+  { "index": 1, "x": 0.15, "y": 0.13, "constellation": "Pisces" },
+  { "index": 2, "x": 0.21, "y": 0.18, "constellation": "Pisces" },
+  { "index": 3, "x": 0.27, "y": 0.11, "constellation": "Pisces" },
+  { "index": 4, "x": 0.32, "y": 0.17, "constellation": "Pisces" },
+  { "index": 5, "x": 0.25, "y": 0.25, "constellation": "Pisces" },
+  { "index": 6, "x": 0.14, "y": 0.28, "constellation": "Pisces" },
+
+  { "index": 7, "x": 0.38, "y": 0.10, "constellation": "Cassiopeia" },
+  { "index": 8, "x": 0.44, "y": 0.15, "constellation": "Cassiopeia" },
+  { "index": 9, "x": 0.50, "y": 0.09, "constellation": "Cassiopeia" },
+  { "index": 10, "x": 0.56, "y": 0.15, "constellation": "Cassiopeia" },
+  { "index": 11, "x": 0.62, "y": 0.10, "constellation": "Cassiopeia" },
+  { "index": 12, "x": 0.68, "y": 0.16, "constellation": "Cassiopeia" },
+
+  { "index": 13, "x": 0.73, "y": 0.14, "constellation": "Lyra" },
+  { "index": 14, "x": 0.81, "y": 0.11, "constellation": "Lyra" },
+  { "index": 15, "x": 0.89, "y": 0.16, "constellation": "Lyra" },
+  { "index": 16, "x": 0.85, "y": 0.25, "constellation": "Lyra" },
+  { "index": 17, "x": 0.76, "y": 0.27, "constellation": "Lyra" },
+  { "index": 18, "x": 0.80, "y": 0.20, "constellation": "Lyra" },
+
+  { "index": 19, "x": 0.08, "y": 0.42, "constellation": "Draco" },
+  { "index": 20, "x": 0.15, "y": 0.35, "constellation": "Draco" },
+  { "index": 21, "x": 0.23, "y": 0.41, "constellation": "Draco" },
+  { "index": 22, "x": 0.31, "y": 0.34, "constellation": "Draco" },
+  { "index": 23, "x": 0.29, "y": 0.49, "constellation": "Draco" },
+  { "index": 24, "x": 0.18, "y": 0.52, "constellation": "Draco" },
+  { "index": 25, "x": 0.09, "y": 0.56, "constellation": "Draco" },
+
+  { "index": 26, "x": 0.13, "y": 0.67, "constellation": "Orion" },
+  { "index": 27, "x": 0.21, "y": 0.58, "constellation": "Orion" },
+  { "index": 28, "x": 0.29, "y": 0.67, "constellation": "Orion" },
+  { "index": 29, "x": 0.20, "y": 0.70, "constellation": "Orion" },
+  { "index": 30, "x": 0.12, "y": 0.79, "constellation": "Orion" },
+  { "index": 31, "x": 0.30, "y": 0.80, "constellation": "Orion" },
+  { "index": 32, "x": 0.22, "y": 0.86, "constellation": "Orion" },
+
+  { "index": 33, "x": 0.69, "y": 0.57, "constellation": "Cygnus" },
+  { "index": 34, "x": 0.77, "y": 0.64, "constellation": "Cygnus" },
+  { "index": 35, "x": 0.85, "y": 0.56, "constellation": "Cygnus" },
+  { "index": 36, "x": 0.78, "y": 0.72, "constellation": "Cygnus" },
+  { "index": 37, "x": 0.71, "y": 0.82, "constellation": "Cygnus" },
+  { "index": 38, "x": 0.87, "y": 0.82, "constellation": "Cygnus" },
+  { "index": 39, "x": 0.93, "y": 0.68, "constellation": "Cygnus" }
+]
