@@ -1,12 +1,45 @@
 import { useEffect, useRef } from 'react';
 import constellations from '../data/constellations.json';
 
+const DECORATIVE_STARS = [
+  { core: '#FF6B9D', glow: 'rgba(255, 107, 157, 0.38)', fade: 'rgba(255, 107, 157, 0)' },
+  { core: '#FFB347', glow: 'rgba(255, 179, 71, 0.34)', fade: 'rgba(255, 179, 71, 0)' },
+];
+
 function groupByConstellation() {
   return constellations.reduce((groups, star) => {
     groups[star.constellation] = groups[star.constellation] || [];
     groups[star.constellation].push(star);
     return groups;
   }, {});
+}
+
+function getDecorativeStar(starIndex) {
+  if (starIndex % 10 !== 0) return null;
+  return DECORATIVE_STARS[Math.floor(starIndex / 10) % DECORATIVE_STARS.length];
+}
+
+function drawCross(context, x, y, size, color, alpha) {
+  const arm = size / 2;
+  context.save();
+  context.globalAlpha = alpha;
+  context.strokeStyle = color;
+  context.lineWidth = 1;
+  context.lineCap = 'round';
+  context.shadowColor = color;
+  context.shadowBlur = 5;
+  context.beginPath();
+  context.moveTo(x - arm, y);
+  context.lineTo(x + arm, y);
+  context.moveTo(x, y - arm);
+  context.lineTo(x, y + arm);
+  context.stroke();
+  context.restore();
+}
+
+function fieldRng(seed) {
+  let s = seed;
+  return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
 }
 
 export function StarLayer({ litStars }) {
@@ -44,6 +77,16 @@ export function StarLayer({ litStars }) {
       const rect = canvas.getBoundingClientRect();
       context.clearRect(0, 0, rect.width, rect.height);
 
+      const rand = fieldRng(54321);
+      for (let i = 0; i < 160; i++) {
+        const fx = rand() * rect.width;
+        const fy = rand() * rect.height;
+        const sz = rand() < 0.82 ? 1 : 1.5;
+        const fa = 0.06 + rand() * 0.2;
+        context.fillStyle = `rgba(220,210,195,${fa})`;
+        context.fillRect(Math.floor(fx), Math.floor(fy), sz, sz);
+      }
+
       Object.values(groups).forEach((stars) => {
         context.beginPath();
         stars.forEach((star, index) => {
@@ -52,7 +95,7 @@ export function StarLayer({ litStars }) {
           if (index === 0) context.moveTo(x, y);
           else context.lineTo(x, y);
         });
-        context.strokeStyle = 'rgba(177, 207, 218, 0.22)';
+        context.strokeStyle = 'rgba(232, 220, 200, 0.18)';
         context.lineWidth = 1;
         context.stroke();
       });
@@ -61,6 +104,7 @@ export function StarLayer({ litStars }) {
         const x = star.x * rect.width;
         const y = star.y * rect.height;
         const lit = litStarsRef.current.has(star.index);
+        const decorative = getDecorativeStar(star.index);
         const burstStart = burstsRef.current.get(star.index);
         const burstAge = burstStart ? now - burstStart : Infinity;
         const burstProgress = Math.max(0, Math.min(1, burstAge / 1500));
@@ -70,16 +114,20 @@ export function StarLayer({ litStars }) {
         const coreRadius = lit ? 3.8 + breath * 0.9 + burst * 3.2 : 2.2;
         const alpha = lit ? 0.82 + breath * 0.18 : 0.5;
         const gradient = context.createRadialGradient(x, y, 0, x, y, glowRadius);
-        gradient.addColorStop(0, lit ? `rgba(255, 244, 194, ${alpha})` : 'rgba(178, 204, 214, .5)');
-        gradient.addColorStop(1, 'rgba(255, 244, 194, 0)');
+        gradient.addColorStop(0, lit ? `rgba(255, 244, 194, ${alpha})` : (decorative?.glow ?? 'rgba(232, 220, 200, 0.28)'));
+        gradient.addColorStop(1, lit ? 'rgba(255, 244, 194, 0)' : (decorative?.fade ?? 'rgba(232, 220, 200, 0)'));
         context.fillStyle = gradient;
         context.beginPath();
         context.arc(x, y, glowRadius, 0, Math.PI * 2);
         context.fill();
-        context.fillStyle = lit ? '#fff4c2' : '#9fb6c0';
-        context.beginPath();
-        context.arc(x, y, coreRadius, 0, Math.PI * 2);
-        context.fill();
+        if (decorative && !lit) {
+          drawCross(context, x, y, 3, decorative.core, 0.9);
+        } else {
+          context.fillStyle = lit ? '#fff4c2' : 'rgba(232, 220, 200, 0.6)';
+          context.beginPath();
+          context.arc(x, y, coreRadius, 0, Math.PI * 2);
+          context.fill();
+        }
 
         if (burst > 0) {
           context.strokeStyle = `rgba(255, 244, 194, ${0.45 * (1 - burstProgress)})`;
@@ -88,6 +136,18 @@ export function StarLayer({ litStars }) {
           context.arc(x, y, 16 + burstProgress * 42, 0, Math.PI * 2);
           context.stroke();
         }
+      });
+
+      context.font = '8px "Press Start 2P", monospace';
+      context.textAlign = 'center';
+      context.fillStyle = 'rgba(232, 220, 200, 0.5)';
+      Object.entries(groups).forEach(([name, stars]) => {
+        let sumX = 0;
+        let sumY = 0;
+        stars.forEach((star) => { sumX += star.x; sumY += star.y; });
+        const labelX = (sumX / stars.length) * rect.width;
+        const labelY = (sumY / stars.length) * rect.height - 14;
+        context.fillText(name.toUpperCase(), labelX, labelY);
       });
 
       frameId = requestAnimationFrame(draw);

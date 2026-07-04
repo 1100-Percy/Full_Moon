@@ -5,11 +5,13 @@ function daysBetween(a, b) {
 
 export function CountdownBadge({ pair, simNow }) {
   const days = pair ? daysBetween(simNow, pair.reunion_at) : 0;
+  const padded = String(days).padStart(2, '0');
 
   return (
     <div className="countdown-badge">
-      <span>{days}</span>
-      <small>DAYS</small>
+      <small>✦ NEW MOON IN ✦</small>
+      <span>{padded}</span>
+      <small>✦ DAYS ✦</small>
     </div>
   );
 }

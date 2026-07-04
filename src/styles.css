@@ -34,9 +34,18 @@ button {
   min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 22% 18%, rgba(209, 83, 84, 0.28), transparent 24rem),
-    radial-gradient(circle at 80% 16%, rgba(68, 142, 159, 0.28), transparent 22rem),
-    linear-gradient(145deg, #081115 0%, #10161c 48%, #211719 100%);
+    radial-gradient(ellipse at 50% 42%, transparent 22%, rgba(3,5,18,0.35) 70%, rgba(3,5,18,0.55) 100%),
+    linear-gradient(
+      to bottom,
+      #050818 0%,
+      #0a0c28 15%,
+      #0f1238 35%,
+      #1a1648 52%,
+      #2d1f52 68%,
+      #4a2c5e 82%,
+      #6d4070 92%,
+      #8b5e83 100%
+    );
 }
 
 .setup-page::before,
@@ -45,11 +54,11 @@ button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.24;
+  opacity: 0.14;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
+    linear-gradient(rgba(232, 220, 200, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 220, 200, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
 }
 
@@ -160,7 +169,8 @@ button {
 
 .parallax-bg,
 .star-layer,
-.meteor-layer {
+.meteor-layer,
+.pixel-cloud-layer {
   position: absolute;
   inset: 0;
 }
@@ -176,19 +186,72 @@ button {
 
 .sky-layer.far {
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.86) 0 1px, transparent 2px),
-    radial-gradient(circle at 42% 12%, rgba(255, 242, 200, 0.8) 0 1px, transparent 2px),
-    radial-gradient(circle at 77% 28%, rgba(183, 225, 222, 0.78) 0 1px, transparent 2px),
-    radial-gradient(circle at 88% 72%, rgba(255, 255, 255, 0.64) 0 1px, transparent 2px);
+    radial-gradient(circle at 12% 18%, rgba(232, 220, 200, 0.6) 0 1px, transparent 2px),
+    radial-gradient(circle at 42% 12%, rgba(232, 220, 200, 0.52) 0 1px, transparent 2px),
+    radial-gradient(circle at 77% 28%, rgba(232, 220, 200, 0.58) 0 1px, transparent 2px),
+    radial-gradient(circle at 88% 72%, rgba(232, 220, 200, 0.42) 0 1px, transparent 2px),
+    radial-gradient(circle at 22% 64%, rgba(232, 220, 200, 0.46) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 82%, rgba(232, 220, 200, 0.56) 0 1px, transparent 2px),
+    radial-gradient(circle at 7% 86%, rgba(232, 220, 200, 0.4) 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 54%, rgba(232, 220, 200, 0.48) 0 1px, transparent 2px);
   background-size: 260px 220px;
+}
+
+.sky-layer.far::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.82;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#ff6b9d, #ff6b9d),
+    linear-gradient(90deg, #ff6b9d, #ff6b9d),
+    linear-gradient(#ffb347, #ffb347),
+    linear-gradient(90deg, #ffb347, #ffb347),
+    linear-gradient(#ff6b9d, #ff6b9d),
+    linear-gradient(90deg, #ff6b9d, #ff6b9d),
+    linear-gradient(#ffb347, #ffb347),
+    linear-gradient(90deg, #ffb347, #ffb347);
+  background-position:
+    calc(18% + 1px) 24%,
+    18% calc(24% + 1px),
+    calc(68% + 1px) 16%,
+    68% calc(16% + 1px),
+    calc(84% + 1px) 68%,
+    84% calc(68% + 1px),
+    calc(34% + 1px) 82%,
+    34% calc(82% + 1px);
+  background-repeat: no-repeat;
+  background-size:
+    1px 3px,
+    3px 1px,
+    1px 3px,
+    3px 1px,
+    1px 3px,
+    3px 1px,
+    1px 3px,
+    3px 1px;
+  filter:
+    drop-shadow(0 0 4px rgba(255, 107, 157, 0.42))
+    drop-shadow(0 0 4px rgba(255, 179, 71, 0.32));
+}
+
+.sky-layer.nebula {
+  opacity: 0.40;
+  background:
+    radial-gradient(ellipse at 18% 32%, rgba(100, 50, 140, 0.18), transparent 36%),
+    radial-gradient(ellipse at 82% 62%, rgba(60, 40, 120, 0.14), transparent 32%),
+    radial-gradient(ellipse at 50% 82%, rgba(140, 60, 100, 0.12), transparent 28%),
+    radial-gradient(ellipse at 68% 18%, rgba(80, 50, 130, 0.10), transparent 30%);
+  filter: blur(28px);
 }
 
 .sky-layer.mid {
   opacity: 0.58;
   background:
-    radial-gradient(ellipse at 20% 76%, rgba(79, 126, 135, 0.18), transparent 28%),
-    radial-gradient(ellipse at 82% 82%, rgba(209, 83, 84, 0.16), transparent 30%),
-    radial-gradient(ellipse at 48% 8%, rgba(255, 242, 200, 0.12), transparent 24%);
+    radial-gradient(ellipse at 20% 76%, rgba(139, 94, 131, 0.22), transparent 28%),
+    radial-gradient(ellipse at 82% 82%, rgba(255, 107, 157, 0.12), transparent 30%),
+    radial-gradient(ellipse at 48% 8%, rgba(232, 220, 200, 0.1), transparent 24%);
   filter: blur(10px);
 }
 
@@ -211,6 +274,15 @@ button {
   width: 100%;
   height: 100%;
   cursor: crosshair;
+}
+
+.pixel-cloud-layer {
+  z-index: 2;
+  top: auto;
+  width: 100%;
+  height: clamp(150px, 26vh, 300px);
+  pointer-events: none;
+  image-rendering: pixelated;
 }
 
 .meteor-card {
@@ -266,46 +338,69 @@ button {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 49%;
+  top: 44%;
   display: grid;
-  justify-items: center;
+  place-items: center;
   transform: translate(-50%, -50%);
 }
 
+.moon-stage > * {
+  grid-column: 1;
+  grid-row: 1;
+}
+
 .countdown-badge {
+  z-index: 3;
+  align-self: start;
   display: grid;
   justify-items: center;
-  gap: 0;
-  margin-bottom: 24px;
+  gap: 6px;
+  padding-top: 22%;
   color: #fff2c8;
   text-shadow: 0 0 24px rgba(255, 242, 200, 0.36);
+  pointer-events: none;
 }
 
 .countdown-badge span {
-  font-family: Georgia, Cambria, serif;
-  font-size: 48px;
-  line-height: 0.9;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 1;
 }
 
 .countdown-badge small {
-  color: rgba(236, 248, 246, 0.68);
-  font-size: 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(7px, 1.1vw, 10px);
+  color: rgba(236, 248, 246, 0.7);
+  letter-spacing: 2px;
 }
 
 .moon-wrap {
   position: relative;
-  width: min(32vw, 320px);
-  min-width: 188px;
+  width: min(42vw, 440px);
+  min-width: 220px;
   aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 0 0 80px rgba(255, 242, 200, 0.35);
   animation: floatMoon 6s ease-in-out infinite;
+}
+
+.moon-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .moon-glow {
   position: absolute;
-  inset: -30%;
+  inset: -40%;
   border-radius: 50%;
   opacity: calc((var(--moon-brightness) - 0.35) / 0.85);
-  background: radial-gradient(circle, rgba(255, 242, 200, 0.42), transparent 58%);
+  background: radial-gradient(circle, rgba(255, 242, 200, 0.32), rgba(200, 180, 255, 0.06) 50%, transparent 62%);
 }
 
 .moon-disc {
@@ -365,24 +460,69 @@ button {
   justify-content: space-between;
 }
 
-.brand-button,
-.sky-actions button {
-  min-height: 40px;
-  background: rgba(7, 16, 20, 0.64);
-  color: #ecf8f6;
-  border: 1px solid rgba(236, 248, 246, 0.16);
-  backdrop-filter: blur(14px);
-}
-
 .brand-button {
+  min-height: auto;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
   font-family: Georgia, Cambria, serif;
   font-size: 20px;
   color: #fff2c8;
+  backdrop-filter: none;
+  letter-spacing: 1px;
 }
 
-.sky-actions {
+.pixel-btn-square {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 2px solid rgba(183, 158, 200, 0.35);
+  border-radius: 8px;
+  background: rgba(11, 13, 46, 0.5);
+  color: #ecf8f6;
+  backdrop-filter: blur(8px);
+}
+
+.sky-menu {
+  position: absolute;
+  z-index: 5;
+  top: 72px;
+  right: 24px;
+  display: grid;
+  gap: 2px;
+  min-width: 200px;
+  padding: 6px;
+  border: 2px solid rgba(183, 158, 200, 0.35);
+  border-radius: 8px;
+  background: rgba(11, 13, 46, 0.88);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  animation: slidePanel 180ms ease-out both;
+}
+
+.sky-menu button {
+  display: flex;
+  align-items: center;
   gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #ecf8f6;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sky-menu button:hover {
+  background: rgba(255, 242, 200, 0.08);
 }
 
 .message-panel {

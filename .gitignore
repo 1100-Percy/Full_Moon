@@ -4,5 +4,6 @@ dist/
 .env.*
 !.env.example
 .DS_Store
+.claude/
 agent-logs/*.jsonl
 agent-logs/*.md

@@ -17,6 +17,7 @@ export function ParallaxBg() {
   return (
     <div className="parallax-bg" aria-hidden="true">
       <div className="sky-layer far" style={{ transform: `translate(${pointer.x * -8}px, ${pointer.y * -5}px)` }} />
+      <div className="sky-layer nebula" style={{ transform: `translate(${pointer.x * -12}px, ${pointer.y * -7}px)` }} />
       <div className="sky-layer mid" style={{ transform: `translate(${pointer.x * -18}px, ${pointer.y * -10}px)` }} />
       <div className="sky-layer near" style={{ transform: `translate(${pointer.x * -34}px, ${pointer.y * -18}px)` }} />
     </div>

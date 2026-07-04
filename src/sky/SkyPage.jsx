@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Menu, UserRound } from 'lucide-react';
+import { Menu, MessageSquare, UserRound } from 'lucide-react';
 import { catchMessage, getInboxMessages, getLitStars, getMessages, getMoonState, getPair, onNewMessage } from '../api';
 import { useMoonStore } from '../store.js';
 import { CountdownBadge } from '../ui/CountdownBadge.jsx';
@@ -7,6 +7,7 @@ import { MessagePanel } from '../ui/MessagePanel.jsx';
 import { MeteorLayer } from './MeteorLayer.jsx';
 import { Moon } from './Moon.jsx';
 import { ParallaxBg } from './ParallaxBg.jsx';
+import { PixelClouds } from './PixelClouds.jsx';
 import { StarLayer } from './StarLayer.jsx';
 
 export function SkyPage({ time, navigate }) {
@@ -18,6 +19,7 @@ export function SkyPage({ time, navigate }) {
   const [litStars, setLitStars] = useState([]);
   const [meteorMessages, setMeteorMessages] = useState([]);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const launchMeteors = (nextMessages, reason = 'inbox') => {
     nextMessages.forEach((message, index) => {
@@ -105,23 +107,35 @@ export function SkyPage({ time, navigate }) {
       <StarLayer litStars={litStars} />
       <MeteorLayer incomingMessages={meteorMessages} onCatch={catchOneMessage} />
       <section className="moon-stage">
-        <CountdownBadge pair={pair} simNow={time.simNow} />
         <Moon progress={moonState.progress} brightness={moonState.brightness} />
+        <CountdownBadge pair={pair} simNow={time.simNow} />
       </section>
+      <PixelClouds />
 
       <header className="sky-header">
-        <button type="button" className="brand-button" onClick={() => navigate('setup')}>Full Moon</button>
-        <div className="sky-actions">
-          <button type="button" onClick={checkInbox}>Check inbox</button>
-          <button type="button" onClick={toggleRole}>
-            <UserRound size={17} />
-            {role}
-          </button>
-          <button aria-label="Toggle message panel" type="button" onClick={() => setPanelOpen((open) => !open)}>
-            <Menu size={19} />
-          </button>
-        </div>
+        <button type="button" className="brand-button" onClick={() => navigate('setup')}>
+          🌙 Full_Moon
+        </button>
+        <button type="button" className="pixel-btn-square" onClick={() => setMenuOpen((o) => !o)} aria-label="Menu">
+          <Menu size={19} />
+        </button>
       </header>
+
+      {menuOpen ? (
+        <nav className="sky-menu">
+          <button type="button" onClick={() => { setPanelOpen((o) => !o); setMenuOpen(false); }}>
+            <MessageSquare size={16} />
+            Message
+          </button>
+          <button type="button" onClick={() => { checkInbox(); setMenuOpen(false); }}>
+            Check Inbox
+          </button>
+          <button type="button" onClick={() => { toggleRole(); setMenuOpen(false); }}>
+            <UserRound size={16} />
+            Role {role === 'A' ? 'B' : 'A'}
+          </button>
+        </nav>
+      ) : null}
 
       {panelOpen ? (
         <MessagePanel
