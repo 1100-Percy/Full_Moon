@@ -4,6 +4,7 @@ import { catchMessage, getLitStars, getMessages, getMoonState, getPair, onNewMes
 import { useMoonStore } from '../store.js';
 import { CountdownBadge } from '../ui/CountdownBadge.jsx';
 import { MessagePanel } from '../ui/MessagePanel.jsx';
+import { MeteorLayer } from './MeteorLayer.jsx';
 import { Moon } from './Moon.jsx';
 import { ParallaxBg } from './ParallaxBg.jsx';
 import { StarLayer } from './StarLayer.jsx';
@@ -15,7 +16,8 @@ export function SkyPage({ time, navigate }) {
   const [pair, setPair] = useState(null);
   const [messages, setMessages] = useState([]);
   const [litStars, setLitStars] = useState([]);
-  const [panelOpen, setPanelOpen] = useState(true);
+  const [meteorMessages, setMeteorMessages] = useState([]);
+  const [panelOpen, setPanelOpen] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -33,9 +35,12 @@ export function SkyPage({ time, navigate }) {
   useEffect(() => {
     const unsubscribe = onNewMessage(pairId, (message) => {
       setMessages((current) => (current.some((item) => item.id === message.id) ? current : [...current, message]));
+      if (message.sender !== role) {
+        setMeteorMessages((current) => (current.some((item) => item.id === message.id) ? current : [...current, message]));
+      }
     });
     return unsubscribe;
-  }, [pairId]);
+  }, [pairId, role]);
 
   const moonState = useMemo(() => getMoonState(pair, time.simNow, messages), [pair, time.simNow, messages]);
 
@@ -47,20 +52,26 @@ export function SkyPage({ time, navigate }) {
     window.history.replaceState({}, '', `/sky?${params.toString()}`);
   };
 
-  const catchLatest = async () => {
-    const latest = [...messages].reverse().find((message) => !message.caught_at && message.sender !== role);
-    if (!latest) return;
-    const result = await catchMessage(latest.id, time.simNow);
-    setMessages((current) => current.map((message) => (message.id === latest.id ? result.message : message)));
+  const catchOneMessage = async (targetMessage) => {
+    if (!targetMessage || targetMessage.caught_at) return null;
+    const result = await catchMessage(targetMessage.id, time.simNow);
+    setMessages((current) => current.map((message) => (message.id === targetMessage.id ? result.message : message)));
     if (result.litStarIndex !== null) {
       setLitStars((current) => [...new Set([...current, result.litStarIndex])]);
     }
+    return result;
+  };
+
+  const catchLatest = async () => {
+    const latest = [...messages].reverse().find((message) => !message.caught_at && message.sender !== role);
+    await catchOneMessage(latest);
   };
 
   return (
     <main className="sky-page">
       <ParallaxBg />
       <StarLayer litStars={litStars} />
+      <MeteorLayer incomingMessages={meteorMessages} onCatch={catchOneMessage} />
       <section className="moon-stage">
         <CountdownBadge pair={pair} simNow={time.simNow} />
         <Moon progress={moonState.progress} brightness={moonState.brightness} />
@@ -86,6 +97,7 @@ export function SkyPage({ time, navigate }) {
           role={role}
           messages={messages}
           onSent={(message) => setMessages((current) => [...current, message])}
+          onOpenMessage={catchOneMessage}
         />
       ) : null}
     </main>

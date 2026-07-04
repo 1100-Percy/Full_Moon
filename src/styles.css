@@ -159,7 +159,8 @@ button {
 }
 
 .parallax-bg,
-.star-layer {
+.star-layer,
+.meteor-layer {
   position: absolute;
   inset: 0;
 }
@@ -205,6 +206,52 @@ button {
   z-index: 1;
 }
 
+.meteor-layer {
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.meteor-card {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: 96px;
+  display: grid;
+  gap: 8px;
+  width: min(420px, calc(100vw - 36px));
+  padding: 18px;
+  border: 1px solid rgba(255, 242, 200, 0.28);
+  border-radius: 8px;
+  background: rgba(7, 16, 20, 0.82);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42), 0 0 42px rgba(255, 242, 200, 0.16);
+  transform: translateX(-50%);
+  backdrop-filter: blur(18px);
+  animation: riseCard 360ms ease-out both;
+}
+
+.meteor-card span {
+  width: fit-content;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: #152025;
+  background: #fff2c8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.meteor-card p {
+  margin: 0;
+  color: #ecf8f6;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.meteor-card small {
+  color: rgba(183, 225, 222, 0.78);
+}
+
 .moon-stage {
   position: absolute;
   z-index: 2;
@@ -247,7 +294,8 @@ button {
   position: absolute;
   inset: -30%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 242, 200, 0.38), transparent 58%);
+  opacity: calc((var(--moon-brightness) - 0.35) / 0.85);
+  background: radial-gradient(circle, rgba(255, 242, 200, 0.42), transparent 58%);
 }
 
 .moon-disc {
@@ -271,6 +319,8 @@ button {
   background: #10161c;
   mix-blend-mode: multiply;
   opacity: 0.92;
+  transform-origin: center;
+  transition: transform 180ms linear;
 }
 
 @keyframes floatMoon {
@@ -280,6 +330,17 @@ button {
   }
   50% {
     transform: translateY(8px);
+  }
+}
+
+@keyframes riseCard {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 }
 
@@ -328,6 +389,7 @@ button {
   background: rgba(7, 16, 20, 0.78);
   backdrop-filter: blur(18px);
   box-shadow: 0 20px 80px rgba(0, 0, 0, 0.36);
+  animation: slidePanel 220ms ease-out both;
 }
 
 .panel-header {
@@ -393,6 +455,35 @@ button {
 .sealed {
   color: #fff2c8;
   background: rgba(255, 242, 200, 0.12);
+}
+
+.message-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.message-status-row button {
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 242, 200, 0.22);
+  border-radius: 6px;
+  color: #fff2c8;
+  background: rgba(255, 242, 200, 0.08);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@keyframes slidePanel {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .message-form {
@@ -479,6 +570,10 @@ button {
     bottom: 14px;
     width: auto;
     max-height: 46vh;
+  }
+
+  .meteor-card {
+    bottom: calc(46vh + 28px);
   }
 
   .time-debugger {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { sendMessage } from '../api';
 
-export function MessagePanel({ pairId, role, messages, onSent }) {
+export function MessagePanel({ pairId, role, messages, onSent, onOpenMessage }) {
   const [content, setContent] = useState('');
 
   const submit = async (event) => {
@@ -28,7 +28,14 @@ export function MessagePanel({ pairId, role, messages, onSent }) {
               <time>{new Date(message.created_at).toLocaleDateString()}</time>
             </div>
             <p>{message.content}</p>
-            <span className={message.caught_at ? 'caught' : 'sealed'}>{message.caught_at ? 'caught' : 'sealed'}</span>
+            <div className="message-status-row">
+              <span className={message.caught_at ? 'caught' : 'sealed'}>{message.caught_at ? 'caught' : 'sealed'}</span>
+              {!message.caught_at && message.sender !== role ? (
+                <button type="button" onClick={() => onOpenMessage(message)}>
+                  Open
+                </button>
+              ) : null}
+            </div>
           </article>
         ))}
       </div>
