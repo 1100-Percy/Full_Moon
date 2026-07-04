@@ -57,8 +57,9 @@ export function MeteorLayer({ incomingMessages, onCatch }) {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
     incomingMessages.forEach((message) => {
-      if (launchedRef.current.has(message.id)) return;
-      launchedRef.current.add(message.id);
+      const launchKey = message.launchId || message.id;
+      if (launchedRef.current.has(launchKey)) return;
+      launchedRef.current.add(launchKey);
       meteorsRef.current.push(createMeteor(message, rect.width, rect.height));
     });
   }, [incomingMessages]);

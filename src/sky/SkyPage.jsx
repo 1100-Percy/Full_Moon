@@ -26,11 +26,21 @@ export function SkyPage({ time, navigate }) {
       setPair(nextPair);
       setMessages(nextMessages);
       setLitStars(nextStars.map((star) => star.star_index));
+      const firstIncoming = [...nextMessages].reverse().find((message) => !message.caught_at && message.sender !== role);
+      if (firstIncoming) {
+        window.setTimeout(() => {
+          if (!alive) return;
+          setMeteorMessages((current) => [
+            ...current,
+            { ...firstIncoming, launchId: `${firstIncoming.id}:initial` },
+          ]);
+        }, 900);
+      }
     });
     return () => {
       alive = false;
     };
-  }, [pairId]);
+  }, [pairId, role]);
 
   useEffect(() => {
     const unsubscribe = onNewMessage(pairId, (message) => {
@@ -62,9 +72,13 @@ export function SkyPage({ time, navigate }) {
     return result;
   };
 
-  const catchLatest = async () => {
+  const launchLatestMeteor = () => {
     const latest = [...messages].reverse().find((message) => !message.caught_at && message.sender !== role);
-    await catchOneMessage(latest);
+    if (!latest) return;
+    setMeteorMessages((current) => [
+      ...current,
+      { ...latest, launchId: `${latest.id}:${Date.now()}` },
+    ]);
   };
 
   return (
@@ -80,7 +94,7 @@ export function SkyPage({ time, navigate }) {
       <header className="sky-header">
         <button type="button" className="brand-button" onClick={() => navigate('setup')}>Full Moon</button>
         <div className="sky-actions">
-          <button type="button" onClick={catchLatest}>Catch latest</button>
+          <button type="button" onClick={launchLatestMeteor}>Launch meteor</button>
           <button type="button" onClick={toggleRole}>
             <UserRound size={17} />
             {role}
