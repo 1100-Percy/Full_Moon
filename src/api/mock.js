@@ -218,14 +218,14 @@ function seedMessages(pairId, startAt, reunionAt) {
   const reunion = new Date(reunionAt).getTime();
   const span = Math.max(1, reunion - start);
   const seeds = [
-    ['A', '今天的云像一封没有寄出的信'],
-    ['B', '我把晚安留到月亮升起来再说'],
-    ['A', '路过花店,想起你喜欢白色的花'],
-    ['B', '今天很累,但想到见面就轻一点'],
-    ['A', '我学会做你爱吃的那道菜了'],
-    ['B', '倒计时又少了一天'],
-    ['A', '今晚月亮很亮,像在帮我们守夜'],
-    ['B', '等见面的时候,我要先抱你很久'],
+    ['A', "Xiaoyu, Mom cooked your favorite braised pork today. Did you eat well at grandma's?"],
+    ['B', 'Look at the moon! Grandma said if I look at it, you are looking at it too.'],
+    ['A', "I saw a toy in the store window today that you would love. I'll bring it when I come back."],
+    ['B', 'I got an A on my math test today! The teacher gave me a sticker.'],
+    ['A', "I'm so proud of you! Mom is working extra hours so we can go to the amusement park."],
+    ['B', 'It rained really hard here today. Is it raining in Shenzhen?'],
+    ['A', 'The weather is clear here. Only 15 days left until my train ticket home!'],
+    ['B', "I can't wait! I drew a picture of us holding hands."],
   ];
 
   seeds.forEach(([sender, content], index) => {

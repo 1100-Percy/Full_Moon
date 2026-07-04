@@ -1,12 +1,12 @@
 [
-  { "id": "moon-photo", "prompt": "今晚各自拍一张你所在地的月亮或夜空。" },
-  { "id": "same-song", "prompt": "同时听同一首歌,各自拍下此刻的播放画面或环境。" },
-  { "id": "warm-drink", "prompt": "各自准备一杯热饮,拍下杯子和窗边的光。" },
-  { "id": "dinner-color", "prompt": "各自拍一张今天晚餐里最像月光颜色的食物。" },
-  { "id": "desk-corner", "prompt": "各自拍下此刻桌面上最想分享给对方的小角落。" },
-  { "id": "street-light", "prompt": "各自拍一盏路灯、窗灯或远处亮着的灯。" },
-  { "id": "hand-written", "prompt": "各自手写一句给对方的话并拍照。" },
-  { "id": "sky-check", "prompt": "各自拍一张此刻天空,晴天阴天都可以。" },
-  { "id": "morning-proof", "prompt": "各自拍下今天早晨看到的第一束光。" },
-  { "id": "tiny-gift", "prompt": "各自拍一个想在见面时带给对方的小物件。" }
+  { "id": "sky-or-moon", "prompt": "Take a photo of the sky or the moon outside your window right now." },
+  { "id": "dinner-tonight", "prompt": "Take a picture of your dinner tonight." },
+  { "id": "something-blue", "prompt": "Take a photo of something blue in your room." },
+  { "id": "nearby-sign", "prompt": "Send a picture of a street sign or building near you." },
+  { "id": "favorite-cup", "prompt": "Take a picture of your favorite cup or mug." },
+  { "id": "book-or-notebook", "prompt": "Share a photo of a book or notebook you are reading." },
+  { "id": "plant-or-tree", "prompt": "Take a picture of a plant or a tree nearby." },
+  { "id": "your-shoes", "prompt": "Share a photo of your shoes." },
+  { "id": "makes-you-smile", "prompt": "Take a picture of something that makes you smile today." },
+  { "id": "weather-outside", "prompt": "Send a photo of the weather outside." }
 ]
