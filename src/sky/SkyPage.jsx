@@ -7,7 +7,7 @@ import { MessagePanel } from '../ui/MessagePanel.jsx';
 import { MeteorLayer } from './MeteorLayer.jsx';
 import { Moon } from './Moon.jsx';
 import { ParallaxBg } from './ParallaxBg.jsx';
-import { PixelClouds } from './PixelClouds.jsx';
+import { CloudCutouts } from './CloudCutouts.jsx';
 import { StarLayer } from './StarLayer.jsx';
 
 export function SkyPage({ time, navigate }) {
@@ -44,6 +44,11 @@ export function SkyPage({ time, navigate }) {
       alive = false;
     };
   }, [pairId, role]);
+
+  useEffect(() => {
+    if (!pair) return;
+    time.setTimeRange(pair.start_at, pair.reunion_at);
+  }, [pair?.start_at, pair?.reunion_at]);
 
   useEffect(() => {
     let alive = true;
@@ -107,10 +112,10 @@ export function SkyPage({ time, navigate }) {
       <StarLayer litStars={litStars} />
       <MeteorLayer incomingMessages={meteorMessages} onCatch={catchOneMessage} />
       <section className="moon-stage">
-        <Moon progress={moonState.progress} brightness={moonState.brightness} />
         <CountdownBadge pair={pair} simNow={time.simNow} />
+        <Moon progress={moonState.progress} brightness={moonState.brightness} />
       </section>
-      <PixelClouds />
+      <CloudCutouts />
 
       <header className="sky-header">
         <button type="button" className="brand-button" onClick={() => navigate('setup')}>
@@ -123,6 +128,9 @@ export function SkyPage({ time, navigate }) {
 
       {menuOpen ? (
         <nav className="sky-menu">
+          <div className="sky-menu-status">
+            Current: {role}
+          </div>
           <button type="button" onClick={() => { setPanelOpen((o) => !o); setMenuOpen(false); }}>
             <MessageSquare size={16} />
             Message
@@ -132,7 +140,7 @@ export function SkyPage({ time, navigate }) {
           </button>
           <button type="button" onClick={() => { toggleRole(); setMenuOpen(false); }}>
             <UserRound size={16} />
-            Role {role === 'A' ? 'B' : 'A'}
+            Switch to {role === 'A' ? 'B' : 'A'}
           </button>
         </nav>
       ) : null}

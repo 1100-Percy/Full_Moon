@@ -37,11 +37,6 @@ function drawCross(context, x, y, size, color, alpha) {
   context.restore();
 }
 
-function fieldRng(seed) {
-  let s = seed;
-  return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
-}
-
 export function StarLayer({ litStars }) {
   const canvasRef = useRef(null);
   const litStarsRef = useRef(new Set(litStars));
@@ -76,16 +71,6 @@ export function StarLayer({ litStars }) {
     const draw = (now) => {
       const rect = canvas.getBoundingClientRect();
       context.clearRect(0, 0, rect.width, rect.height);
-
-      const rand = fieldRng(54321);
-      for (let i = 0; i < 160; i++) {
-        const fx = rand() * rect.width;
-        const fy = rand() * rect.height;
-        const sz = rand() < 0.82 ? 1 : 1.5;
-        const fa = 0.06 + rand() * 0.2;
-        context.fillStyle = `rgba(220,210,195,${fa})`;
-        context.fillRect(Math.floor(fx), Math.floor(fy), sz, sz);
-      }
 
       Object.values(groups).forEach((stars) => {
         context.beginPath();

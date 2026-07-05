@@ -33,18 +33,16 @@ button {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 42%, transparent 22%, rgba(3,5,18,0.35) 70%, rgba(3,5,18,0.55) 100%),
+  background: 
+    radial-gradient(circle at 50% 40%, rgba(15, 19, 53, 0.4) 0%, transparent 60%),
     linear-gradient(
       to bottom,
-      #050818 0%,
-      #0a0c28 15%,
-      #0f1238 35%,
-      #1a1648 52%,
-      #2d1f52 68%,
-      #4a2c5e 82%,
-      #6d4070 92%,
-      #8b5e83 100%
+      #040614 0%,
+      #080c27 25%,
+      #13143c 50%,
+      #271c50 75%,
+      #4f255e 88%,
+      #7a3563 100%
     );
 }
 
@@ -170,7 +168,7 @@ button {
 .parallax-bg,
 .star-layer,
 .meteor-layer,
-.pixel-cloud-layer {
+.cloud-cutouts {
   position: absolute;
   inset: 0;
 }
@@ -185,65 +183,16 @@ button {
 }
 
 .sky-layer.far {
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(232, 220, 200, 0.6) 0 1px, transparent 2px),
-    radial-gradient(circle at 42% 12%, rgba(232, 220, 200, 0.52) 0 1px, transparent 2px),
-    radial-gradient(circle at 77% 28%, rgba(232, 220, 200, 0.58) 0 1px, transparent 2px),
-    radial-gradient(circle at 88% 72%, rgba(232, 220, 200, 0.42) 0 1px, transparent 2px),
-    radial-gradient(circle at 22% 64%, rgba(232, 220, 200, 0.46) 0 1px, transparent 2px),
-    radial-gradient(circle at 58% 82%, rgba(232, 220, 200, 0.56) 0 1px, transparent 2px),
-    radial-gradient(circle at 7% 86%, rgba(232, 220, 200, 0.4) 0 1px, transparent 2px),
-    radial-gradient(circle at 70% 54%, rgba(232, 220, 200, 0.48) 0 1px, transparent 2px);
-  background-size: 260px 220px;
-}
-
-.sky-layer.far::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.82;
-  pointer-events: none;
-  background-image:
-    linear-gradient(#ff6b9d, #ff6b9d),
-    linear-gradient(90deg, #ff6b9d, #ff6b9d),
-    linear-gradient(#ffb347, #ffb347),
-    linear-gradient(90deg, #ffb347, #ffb347),
-    linear-gradient(#ff6b9d, #ff6b9d),
-    linear-gradient(90deg, #ff6b9d, #ff6b9d),
-    linear-gradient(#ffb347, #ffb347),
-    linear-gradient(90deg, #ffb347, #ffb347);
-  background-position:
-    calc(18% + 1px) 24%,
-    18% calc(24% + 1px),
-    calc(68% + 1px) 16%,
-    68% calc(16% + 1px),
-    calc(84% + 1px) 68%,
-    84% calc(68% + 1px),
-    calc(34% + 1px) 82%,
-    34% calc(82% + 1px);
-  background-repeat: no-repeat;
-  background-size:
-    1px 3px,
-    3px 1px,
-    1px 3px,
-    3px 1px,
-    1px 3px,
-    3px 1px,
-    1px 3px,
-    3px 1px;
-  filter:
-    drop-shadow(0 0 4px rgba(255, 107, 157, 0.42))
-    drop-shadow(0 0 4px rgba(255, 179, 71, 0.32));
+  background: none;
 }
 
 .sky-layer.nebula {
-  opacity: 0.40;
+  opacity: 0.6;
   background:
-    radial-gradient(ellipse at 18% 32%, rgba(100, 50, 140, 0.18), transparent 36%),
-    radial-gradient(ellipse at 82% 62%, rgba(60, 40, 120, 0.14), transparent 32%),
-    radial-gradient(ellipse at 50% 82%, rgba(140, 60, 100, 0.12), transparent 28%),
-    radial-gradient(ellipse at 68% 18%, rgba(80, 50, 130, 0.10), transparent 30%);
-  filter: blur(28px);
+    radial-gradient(ellipse at 18% 32%, rgba(45, 60, 140, 0.2), transparent 40%),
+    radial-gradient(ellipse at 82% 62%, rgba(100, 40, 120, 0.15), transparent 40%),
+    radial-gradient(ellipse at 50% 82%, rgba(180, 80, 100, 0.15), transparent 35%);
+  filter: blur(32px);
 }
 
 .sky-layer.mid {
@@ -276,13 +225,34 @@ button {
   cursor: crosshair;
 }
 
-.pixel-cloud-layer {
+.cloud-cutouts {
   z-index: 2;
-  top: auto;
-  width: 100%;
-  height: clamp(150px, 26vh, 300px);
   pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud-cutout {
+  position: absolute;
+  bottom: -5vh;
+  width: clamp(320px, 44vw, 680px);
+  max-width: none;
+  opacity: 0.95;
   image-rendering: pixelated;
+  filter: drop-shadow(0 18px 22px rgba(5, 7, 25, 0.22));
+  will-change: transform;
+}
+
+.cloud-cutout-left {
+  left: -5vw;
+  transform-origin: left bottom;
+  animation: cloudDriftLeft 60s ease-in-out infinite;
+}
+
+.cloud-cutout-right {
+  right: -4vw;
+  width: clamp(340px, 47vw, 720px);
+  transform-origin: right bottom;
+  animation: cloudDriftRight 60s ease-in-out infinite;
 }
 
 .meteor-card {
@@ -338,24 +308,19 @@ button {
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 44%;
-  display: grid;
-  place-items: center;
+  top: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 2vh, 22px);
   transform: translate(-50%, -50%);
-}
-
-.moon-stage > * {
-  grid-column: 1;
-  grid-row: 1;
 }
 
 .countdown-badge {
   z-index: 3;
-  align-self: start;
   display: grid;
   justify-items: center;
   gap: 6px;
-  padding-top: 22%;
   color: #fff2c8;
   text-shadow: 0 0 24px rgba(255, 242, 200, 0.36);
   pointer-events: none;
@@ -384,17 +349,6 @@ button {
   animation: floatMoon 6s ease-in-out infinite;
 }
 
-.moon-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
 .moon-glow {
   position: absolute;
   inset: -40%;
@@ -406,26 +360,51 @@ button {
 .moon-disc {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.82), transparent 11%),
-    radial-gradient(circle at 70% 66%, rgba(126, 106, 83, 0.16), transparent 15%),
-    #fff2c8;
-  box-shadow:
-    inset -28px -22px 54px rgba(100, 78, 62, 0.2),
-    0 0 72px rgba(255, 242, 200, 0.5);
+  background: #030812;
+  box-shadow: 0 0 72px rgba(255, 242, 200, 0.38);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
-.moon-shadow {
-  position: absolute;
-  inset: -8%;
-  border-radius: 50%;
-  background: #10161c;
-  mix-blend-mode: multiply;
-  opacity: 0.92;
-  transform-origin: center;
-  transition: transform 180ms linear;
+.moon-night {
+  fill: #030812;
+}
+
+.moon-image {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.moon-rim {
+  fill: none;
+  stroke: rgba(255, 242, 200, 0.16);
+  stroke-width: 0.8;
+}
+
+@keyframes cloudDriftLeft {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(24px) translateY(-4px);
+  }
+}
+
+@keyframes cloudDriftRight {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(-28px) translateY(-5px);
+  }
 }
 
 @keyframes floatMoon {
@@ -523,6 +502,15 @@ button {
 
 .sky-menu button:hover {
   background: rgba(255, 242, 200, 0.08);
+}
+
+.sky-menu-status {
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid rgba(236, 248, 246, 0.12);
+  color: rgba(236, 248, 246, 0.68);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
 }
 
 .message-panel {
@@ -660,7 +648,7 @@ button {
   left: 50%;
   bottom: 18px;
   display: grid;
-  grid-template-columns: auto minmax(240px, 42vw) auto;
+  grid-template-columns: auto minmax(240px, 42vw);
   gap: 14px;
   align-items: center;
   width: min(760px, calc(100vw - 32px));

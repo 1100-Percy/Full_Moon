@@ -18,13 +18,13 @@ export function MessagePanel({ pairId, role, messages, onSent, onOpenMessage }) 
     <aside className="message-panel">
       <div className="panel-header">
         <strong>Messages</strong>
-        <span>{role} window</span>
+        <span>Logged in as {role}</span>
       </div>
       <div className="message-list">
         {messages.map((message) => (
           <article className={`message-item ${message.sender === role ? 'mine' : ''}`} key={message.id}>
             <div>
-              <strong>{message.sender}</strong>
+              <strong>{message.sender === role ? `You (${role})` : `From ${message.sender}`}</strong>
               <time>{new Date(message.created_at).toLocaleDateString()}</time>
             </div>
             <p>{message.content}</p>
@@ -32,7 +32,7 @@ export function MessagePanel({ pairId, role, messages, onSent, onOpenMessage }) 
               <span className={message.caught_at ? 'caught' : 'sealed'}>{message.caught_at ? 'caught' : 'sealed'}</span>
               {!message.caught_at && message.sender !== role ? (
                 <button type="button" onClick={() => onOpenMessage(message)}>
-                  Catch
+                  Catch meteor
                 </button>
               ) : null}
             </div>

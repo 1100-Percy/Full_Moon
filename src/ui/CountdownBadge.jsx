@@ -9,7 +9,7 @@ export function CountdownBadge({ pair, simNow }) {
 
   return (
     <div className="countdown-badge">
-      <small>✦ NEW MOON IN ✦</small>
+      <small>✦ FULL MOON IN ✦</small>
       <span>{padded}</span>
       <small>✦ DAYS ✦</small>
     </div>

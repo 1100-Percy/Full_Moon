@@ -16,9 +16,6 @@ export function TimeDebugger({ time }) {
         value={time.simNow.getTime()}
         onChange={(event) => time.setSliderTime(event.target.value)}
       />
-      <button type="button" onClick={time.useLiveTime}>
-        Live
-      </button>
     </div>
   );
 }
